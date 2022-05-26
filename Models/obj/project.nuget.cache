@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "OfDRztJBnAPM9u2tB29vS/CBwo3pzcxL6yuFmLE5ab5+lIqAO/hfCAap0qmDcu4dnjyGgZKabO82CMLElJS2Xw==",
+  "success": true,
+  "projectFilePath": "/Users/golovko/BS/Models/Models.csproj",
+  "expectedPackageFiles": [
+    "/Users/golovko/.nuget/packages/microsoft.data.sqlite.core/7.0.0-preview.2.22153.1/microsoft.data.sqlite.core.7.0.0-preview.2.22153.1.nupkg.sha512",
+    "/Users/golovko/.nuget/packages/sqlitepclraw.bundle_e_sqlcipher/2.1.0-pre20220318192836/sqlitepclraw.bundle_e_sqlcipher.2.1.0-pre20220318192836.nupkg.sha512",
+    "/Users/golovko/.nuget/packages/sqlitepclraw.core/2.1.0-pre20220318192836/sqlitepclraw.core.2.1.0-pre20220318192836.nupkg.sha512",
+    "/Users/golovko/.nuget/packages/sqlitepclraw.lib.e_sqlcipher/2.1.0-pre20220318192836/sqlitepclraw.lib.e_sqlcipher.2.1.0-pre20220318192836.nupkg.sha512",
+    "/Users/golovko/.nuget/packages/sqlitepclraw.provider.e_sqlcipher/2.1.0-pre20220318192836/sqlitepclraw.provider.e_sqlcipher.2.1.0-pre20220318192836.nupkg.sha512",
+    "/Users/golovko/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,250 @@
+create table Banks
+(
+    ID   INTEGER not null
+        constraint Banks_pk
+            primary key autoincrement,
+    Name TEXT    not null
+);
+
+create table BankAccounts
+(
+    ID      INTEGER not null
+        constraint BankAccounts_pk
+            primary key autoincrement,
+    Owner   TEXT    not null,
+    Balance INTEGER not null,
+    Bank    INTEGER not null
+        references Banks
+            on update cascade on delete cascade,
+    Status  TEXT default 'Active' not null
+);
+
+create unique index BankAccounts_ID_uindex
+    on BankAccounts (ID);
+
+create unique index Banks_ID_uindex
+    on Banks (ID);
+
+create unique index Banks_Name_uindex
+    on Banks (Name);
+
+create table DeclaredUsers
+(
+    ID             INTEGER not null
+        constraint DeclaredUsers_pk
+            primary key autoincrement,
+    Login          TEXT    not null,
+    Password       TEXT    not null,
+    Name           TEXT    not null,
+    Surname        TEXT    not null,
+    Passport       TEXT    not null,
+    Identification TEXT    not null,
+    Phone          TEXT    not null,
+    Email          TEXT    not null,
+    Bank           INTEGER not null
+        references Banks
+            on update cascade on delete cascade,
+    Salary         INTEGER not null,
+    Cash           INTEGER not null,
+    Work           TEXT    not null
+);
+
+create unique index DeclaredUsers_ID_uindex
+    on DeclaredUsers (ID);
+
+create table Logs
+(
+    ID              INTEGER not null
+        constraint Logs_pk
+            primary key autoincrement,
+    Type            TEXT    not null,
+    FirstClient     TEXT    not null,
+    SecondClient    TEXT    not null,
+    FirstAccount    TEXT    not null,
+    SecondAccount   TEXT    not null,
+    StartMoneyState INTEGER not null,
+    FinalMoneyState INTEGER not null
+);
+
+create unique index Logs_ID_uindex
+    on Logs (ID);
+
+create table Organizations
+(
+    ID         INTEGER not null
+        constraint Organizations_pk
+            primary key autoincrement,
+    Type       TEXT    default 'OAO' not null,
+    Name       TEXT    not null,
+    PAN        INTEGER not null,
+    BIC        INTEGER not null,
+    Address    TEXT    not null,
+    Specialist TEXT    default 'Undefined' not null,
+    Account    INTEGER default 0 not null
+);
+
+create unique index Organizations_Address_uindex
+    on Organizations (Address);
+
+create unique index Organizations_ID_uindex
+    on Organizations (ID);
+
+create unique index Organizations_Name_uindex
+    on Organizations (Name);
+
+create table SalaryPlan
+(
+    ID           INTEGER not null
+        constraint SalaryPlan_pk
+            primary key autoincrement,
+    Organization TEXT    not null,
+    Money        INTEGER not null
+);
+
+create unique index SalaryPlan_ID_uindex
+    on SalaryPlan (ID);
+
+create table Transfer
+(
+    ID            INTEGER not null
+        constraint Transfer_pk
+            primary key autoincrement,
+    FirstAccount  INTEGER not null,
+    SecondAccount INTEGER,
+    Money         INTEGER not null
+);
+
+create unique index Transfer_ID_uindex
+    on Transfer (ID);
+
+create table UsersAuth
+(
+    ID       INTEGER not null
+        constraint UsersAuth_pk
+            primary key autoincrement,
+    Login    TEXT    not null,
+    Password TEXT    not null,
+    Bank     INTEGER not null
+        references Banks
+            on update cascade on delete cascade
+);
+
+create unique index UsersAuth_ID_uindex
+    on UsersAuth (ID);
+
+create unique index UsersAuth_Login_uindex
+    on UsersAuth (Login);
+
+create table UsersInfo
+(
+    ID             INTEGER not null
+        constraint UsersInfo_pk
+            primary key autoincrement
+        references UsersAuth
+            on update cascade on delete cascade,
+    Name           TEXT    not null,
+    Surname        TEXT    default 'Undefined' not null,
+    Passport       TEXT    not null,
+    Identification TEXT    not null,
+    Phone          TEXT    not null,
+    Email          TEXT    not null,
+    AccessLevel    INTEGER default 1 not null,
+    Bank           INTEGER default 1 not null
+        references Banks
+            on update cascade on delete cascade,
+    Salary         INTEGER default 0 not null,
+    Cash           INTEGER default 10000 not null,
+    Work           TEXT    default 'Undefined' not null
+);
+
+create table Credits
+(
+    ID             INTEGER not null
+        constraint Credits_pk
+            primary key autoincrement,
+    Owner          TEXT    not null
+        constraint Credits_UsersInfo_Passport_fk
+            references UsersInfo (Passport)
+            on update cascade on delete cascade,
+    Sum            INTEGER not null,
+    Bank           INTEGER not null
+        references Banks
+            on update cascade on delete cascade,
+    Percent        INTEGER not null,
+    StartDate      TEXT    not null,
+    ExpirationDate TEXT,
+    Status         TEXT default 'Frozen' not null
+);
+
+create unique index Credits_ID_uindex
+    on Credits (ID);
+
+create table Deposit
+(
+    ID        INTEGER not null
+        constraint Deposit_pk
+            primary key autoincrement,
+    Owner     TEXT    not null
+        constraint Deposit_UsersInfo_Passport_fk
+            references UsersInfo (Passport)
+            on update cascade on delete cascade,
+    Sum       INTEGER not null,
+    Bank      INTEGER not null
+        references Banks
+            on update cascade on delete cascade,
+    Percent   INTEGER not null,
+    StartDate TEXT    not null,
+    Status    TEXT default 'Frozen' not null
+);
+
+create unique index Deposit_ID_uindex
+    on Deposit (ID);
+
+create table Installments
+(
+    ID             INTEGER not null
+        constraint Installments_pk
+            primary key autoincrement,
+    Owner          TEXT    not null
+        constraint Installments_UsersInfo_Passport_fk
+            references UsersInfo (Passport)
+            on update cascade on delete cascade,
+    Sum            INTEGER not null,
+    Bank           INTEGER not null
+        references Banks
+            on update cascade on delete cascade,
+    StartDate      TEXT    not null,
+    ExpirationDate TEXT    not null,
+    Status         TEXT default 'Frozen' not null
+);
+
+create unique index Installments_ID_uindex
+    on Installments (ID);
+
+create unique index UsersInfo_ID_uindex
+    on UsersInfo (ID);
+
+create unique index UsersInfo_Identification_uindex
+    on UsersInfo (Identification);
+
+create unique index UsersInfo_Passport_uindex
+    on UsersInfo (Passport);
+
+create unique index UsersInfo_Phone_uindex
+    on UsersInfo (Phone);
+
+create table sqlite_master
+(
+    type     text,
+    name     text,
+    tbl_name text,
+    rootpage int,
+    sql      text
+);
+
+create table sqlite_sequence
+(
+    name,
+    seq
+);
+
